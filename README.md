@@ -1,3 +1,11 @@
+<div align="center"> <img src="https://img.shields.io/badge/WordPress-%23117AC9.svg?style=for-the-badge&logo=WordPress&logoColor=white" alt="WordPress" /> <img src="https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP" /> <img src="https://img.shields.io/badge/WooCommerce-96588A?style=for-the-badge&logo=WooCommerce&logoColor=white" alt="WooCommerce" /> <br /> <strong>Oculta todas as exibições de estoque (stock) do WooCommerce sem configurações complexas.</strong> </div>
+📌 Visão Geral
+
+Um plugin leve e eficiente que remove completamente a exibição de estoque (inclusive mensagens como "Disponível em estoque" ou "Fora de estoque") em lojas WooCommerce.
+
+✅ Sem configuração necessária – Basta ativar e funcionar!
+✅ 100% compatível com temas e plugins – Não quebra layouts.
+✅ Otimizado para performance – Zero consultas adicionais ao banco de dados.
 🚀 Instalação
 
     Faça o download do plugin:
@@ -48,11 +56,3 @@ php
 if (!current_user_can('manage_woocommerce')) {  
     add_filter('woocommerce_get_stock_html', '__return_empty_string');  
 }  
-
-🛠 Contribuições
-
-Contribuições são bem-vindas! Envie um Pull Request ou abra uma Issue no GitHub.
-📜 Licença
-
-GPLv2 - Livre para uso e modificação.
-<div align="center"> <sub>Criado com ❤️ por <strong>Seu Nome</strong></sub> </div> ```
