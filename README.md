@@ -1,58 +1,49 @@
-<div align="center"> <img src="https://img.shields.io/badge/WordPress-%23117AC9.svg?style=for-the-badge&logo=WordPress&logoColor=white" alt="WordPress" /> <img src="https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP" /> <img src="https://img.shields.io/badge/WooCommerce-96588A?style=for-the-badge&logo=WooCommerce&logoColor=white" alt="WooCommerce" /> <br /> <strong>Oculta todas as exibições de estoque (stock) do WooCommerce sem configurações complexas.</strong> </div>
-📌 Visão Geral
+# Hide WooCommerce Stock
 
-Um plugin leve e eficiente que remove completamente a exibição de estoque (inclusive mensagens como "Disponível em estoque" ou "Fora de estoque") em lojas WooCommerce.
+[![WordPress](https://img.shields.io/badge/WordPress-%23117AC9.svg?style=for-the-badge&logo=WordPress&logoColor=white)](https://wordpress.org/)
+[![PHP](https://img.shields.io/badge/PHP-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://php.net/)
+[![WooCommerce](https://img.shields.io/badge/WooCommerce-96588A?style=for-the-badge&logo=WooCommerce&logoColor=white)](https://woocommerce.com/)
 
-✅ Sem configuração necessária – Basta ativar e funcionar!
-✅ 100% compatível com temas e plugins – Não quebra layouts.
-✅ Otimizado para performance – Zero consultas adicionais ao banco de dados.
-🚀 Instalação
+A lightweight WordPress plugin that completely hides WooCommerce stock displays.
 
-    Faça o download do plugin:
+## Features
 
-        Baixar ZIP direto
+- Removes stock display from single product pages
+- Hides stock from product archives/shop pages
+- Removes stock from product variations
+- Optionally hides stock column in admin
+- Zero configuration needed
+- No database impact
 
-        Ou clone o repositório:
-        sh
+## Installation
 
-        git clone https://github.com/seu-usuario/hide-woocommerce-stock.git
+1. Download the [latest release](https://github.com/yourusername/hide-woocommerce-stock/releases)
+2. Upload to your WordPress plugins directory (`/wp-content/plugins/`)
+3. Activate the plugin in WordPress admin
 
-    Instale no WordPress:
+Or install directly via WordPress:
+1. Go to **Plugins > Add New**
+2. Click **Upload Plugin**
+3. Select the ZIP file
+4. Click **Install Now** then **Activate**
 
-        Acesse Plugins > Adicionar Novo > Enviar Plugin e faça upload do arquivo ZIP.
+## How It Works
 
-        Ative o plugin.
+The plugin uses WooCommerce hooks to remove stock displays:
 
-🔧 Como Funciona
+| Location | Method Used |
+|----------|-------------|
+| Single product page | `remove_action('woocommerce_single_product_summary', 'woocommerce_template_single_stock', 10)` |
+| Product archives | `remove_action('woocommerce_after_shop_loop_item_title', 'woocommerce_template_loop_stock', 10)` |
+| Variations | `add_filter('woocommerce_get_stock_html', '__return_empty_string')` |
+| Admin column | `remove_column('is_in_stock')` |
 
-O plugin utiliza hooks nativos do WooCommerce para remover todas as exibições de estoque:
-Onde o Estoque é Ocultado	Método Utilizado
-Página individual do produto	Remove woocommerce_template_single_stock
-Listagens (loja/categorias)	Remove woocommerce_template_loop_stock
-Variações (seletor de atributos)	Filtra woocommerce_get_stock_html para retornar vazio
-Coluna "Stock" no painel admin	Remove via manage_edit-product_columns (opcional)
-📝 Código Personalizado (Opcional)
+## Customization
 
-Se precisar reverter a ocultação em casos específicos, use este filtro no functions.php do seu tema:
-php
+### Show stock for specific products only
 
-// Reexibir stock apenas para produtos com ID específico (ex: ID 123)  
-add_filter('woocommerce_get_stock_html', function($html, $product) {  
-    return ($product->get_id() === 123) ? $html : '';  
-}, 10, 2);  
-
-📌 FAQ
-❓ Isso afeta a gestão real do estoque?
-
-➡ Não! Apenas a exibição é removida. O WooCommerce continua gerenciando o estoque normalmente.
-❓ Funciona com cache de plugins (W3TC, WP Rocket)?
-
-➡ Sim! Como o plugin opera via hooks, é compatível com sistemas de cache.
-❓ Posso ocultar o estoque apenas para visitantes?
-
-➡ Sim! Adicione este código ao plugin:
-php
-
-if (!current_user_can('manage_woocommerce')) {  
-    add_filter('woocommerce_get_stock_html', '__return_empty_string');  
-}  
+```php
+add_filter('woocommerce_get_stock_html', function($html, $product) {
+    // Show only for product ID 42
+    return ($product->get_id() === 42) ? $html : '';
+}, 10, 2);
